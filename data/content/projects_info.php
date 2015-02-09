@@ -26,22 +26,12 @@
 		$query = mysql_query("SELECT * FROM projects", $link);
 		$result = mysql_fetch_assoc($query);
 
-		// $allArray = Array();
-
 		$rowCount = 0;
 
 		echo "[";
 
 		while ($result) {
-			// $allArray[] = $result["pr_id"];
-			// $allArray[] = $result["title"];
-			// $allArray[] = $result["description"];
-			// $allArray[] = $result["file_01"];
-			// $allArray[] = $result["file_02"];
-			// $allArray[] = $result["date_created"];
-
-
-			// echo "\"project".$rowCount."\" : ";
+			
 			echo "{";
 			echo "\"id\" :\"".$result["pr_id"]."\",";
 			echo "\"title\" :\"".$result["title"]."\",";
@@ -56,12 +46,14 @@
 				echo ",";
 			}
 			$rowCount++;
+
 		}
 
 		echo "]";
+	}
 
-		// echo (json_encode($allArray));
-
-		// echo ($allArray);
+	//add user to a project
+	if (isset($_REQUEST['addUser'])) {
+		# code...
 	}
 ?>

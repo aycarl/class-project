@@ -28,26 +28,27 @@
 
         //display public projects
         function displayProjects(){
-            console.log("this function was executed!");
+            console.log("the displayProjects function was executed!");
+
             var pd = document.getElementById("openProjects");
 
             var pdInfo;
 
-            var pData = syncAjax("projects");//JSON.parse(p);
+            var pData = syncAjax("projects");
 
             if (pData.length > 0) {
                 pdInfo = '<div id = "openProjects">';
-                // console.log("this function was executed again!");
-
+                
                 for (var i = 0; i < pData.length; i++) {
-                    pdInfo += '<div>'+pData[i].id+'</div>';
+                    pdInfo += '<div><a href="">'+ pData[i].title +'</a></div>';
                     pdInfo += '<div>'+pData[i].description+'</div>';
-                    // pdInfo += '<div>'+pData[i+1]+'</div>';
+                    
                 };
 
                 pdInfo += '</div>';
+                pdInfo += '<a href="#">create new project</a>'
             };
-
+            //check for the display of the json object
             console.log("this function was executed again!"+pData);
 
             $("#openProjects").replaceWith(pdInfo);
