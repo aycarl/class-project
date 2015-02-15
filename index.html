@@ -1,0 +1,112 @@
+<html>
+<head>
+
+    <title>Class Project Home</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <script>
+        var localURL = "projects_info.php?";
+
+        $(document).ready(function(){
+            //update projects if logged in otherwise display pubic projects
+            displayProjects();
+        });
+
+        //SyncAjax function
+        function syncAjax(u){
+            u = localURL + u;
+            console.log(u + ' is being accessed!');
+            var obj=$.ajax( {url:u, async:false} );
+            return $.parseJSON(obj.responseText);
+        }
+
+        //display public projects
+        function displayProjects(){
+            console.log("the displayProjects function was executed!");
+
+            var pd = document.getElementById("openProjects");
+
+            var pdInfo;
+
+            var pData = syncAjax("projects");
+
+            console.log(pData + ' is displayed')
+
+            if (pData.length > 0) {
+                pdInfo = '<div class = "row" id = "openProjects">';
+                
+                for (var i = 0; i < pData.length; i++) {
+                    pdInfo += '<div onclick="project_info('+ pData[i].id +')">'+ pData[i].title +'</div>';
+                    pdInfo += '<p>'+pData[i].description+'</p>';
+                    
+                };
+
+                pdInfo += '</div>';
+                pdInfo += '<a href="#">create new project</a>'
+            };
+            //check for the display of the json object
+            console.log("this function was executed again!"+pData);
+
+            $("#openProjects").replaceWith(pdInfo);
+
+        }
+
+        //display the information of a single project
+        function project_info(id){
+            console.log("display single project info!");
+
+            var spData = syncAjax("project_id="+id);
+
+            var spInfo;
+
+            console.log("project_id="+id);
+
+            console.log(spData);
+
+            spInfo = '<div class ="row" id ="openProjects">';
+            spInfo += '<h3>'+ spData.title +'</h3>';
+            spInfo += '<p>'+ spData.description +'</p>';
+            spInfo += '<p>'+ spData.file_01 +'</p>';
+            spInfo += '<p>'+ spData.file_02 +'</p>';
+            spInfo += '<p>'+ spData.date_created +'</p>';
+            spInfo += '</div>';
+
+            $("#openProjects").replaceWith(sdInfo);
+
+        }
+
+    </script>
+
+</head>
+<body>
+    <div class="container-fluid container">
+        <div class="row">
+            <div class="col-lg-6">
+                <a href="#menu-toggle" id="menu-toggle" onclick="displayProjects()">LOGO</a>
+            </div>
+            <div class="col-lg-6 text-right">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                <input type="text" ng-model="searchItem" placeholder="Search projects">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="title">
+                    <h1>Class Project</h1>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="openProjects">
+        </div>
+    </div>
+
+</body>
+
+</html>
