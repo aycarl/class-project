@@ -56,7 +56,7 @@
 		
 		$prj = $_REQUEST['project_id'];
 
-		echo "<script>console.log('inside yes!')</script>";
+		// echo "<script>console.log('inside yes!')</script>";
 
 		$query = mysql_query("SELECT * FROM projects WHERE pr_id = '$prj'", $link);
 		$result = mysql_fetch_assoc($query);

@@ -40,7 +40,7 @@
             console.log(pData + ' is displayed')
 
             if (pData.length > 0) {
-                pdInfo = '<div class = "row" id = "openProjects">';
+                pdInfo = '<div class = "col-lg-6" id = "openProjects">';
                 
                 for (var i = 0; i < pData.length; i++) {
                     pdInfo += '<div onclick="project_info('+ pData[i].id +')">'+ pData[i].title +'</div>';
@@ -48,9 +48,10 @@
                     
                 };
 
+                //Button trigger modal
+                pdInfo += '<button type="button" class="btn btn-sm btn-default btn-block" data-toggle="modal" data-target="#myModal">create new project</button>';
                 pdInfo += '</div>';
-                pdInfo += '<a href="#">create new project</a>'
-            };
+            }
             //check for the display of the json object
             console.log("this function was executed again!"+pData);
 
@@ -70,7 +71,7 @@
 
             console.log(spData);
 
-            spInfo = '<div class ="row" id ="openProjects">';
+            spInfo = '<div  class = "col-lg-6" id="projectDetails">';
             spInfo += '<h3>'+ spData.title +'</h3>';
             spInfo += '<p>'+ spData.description +'</p>';
             spInfo += '<p>'+ spData.file_01 +'</p>';
@@ -78,35 +79,78 @@
             spInfo += '<p>'+ spData.date_created +'</p>';
             spInfo += '</div>';
 
-            $("#openProjects").replaceWith(sdInfo);
+            $("#projectDetails").replaceWith(spInfo);
 
         }
 
     </script>
 
 </head>
-<body>
-    <div class="container-fluid container">
-        <div class="row">
-            <div class="col-lg-6">
-                <a href="#menu-toggle" id="menu-toggle" onclick="displayProjects()">LOGO</a>
-            </div>
-            <div class="col-lg-6 text-right">
-                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                <input type="text" ng-model="searchItem" placeholder="Search projects">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="title">
-                    <h1>Class Project</h1>
+    <body>
+        <div class="container-fluid container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <a href="#menu-toggle" id="menu-toggle" onclick="displayProjects()">LOGO</a>
+                </div>
+                <div class="col-lg-6 text-right">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                    <input type="text" ng-model="searchItem" placeholder="Search projects">
                 </div>
             </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="title">
+                        <h1>Class Project</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class = "col-lg-6" id="openProjects"></div>
+                <div class = "col-lg-6" id="projectDetails"></div>
+            </div>
         </div>
-        <div class="row" id="openProjects">
+        <!-- add a new project modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">New Class Project</h4>
+              </div>
+              <div class="modal-body">
+                <!-- <form id="newProject">
+                    <input type="text" id="pTitle" value"" placeholder="enter project title">
+                    <textarea class="form-control" rows="3"></textarea>
+                </form> -->
+                <form id="newProject">
+                  <div class="form-group">
+                    <label for="inputProjectTitle">Title</label>
+                    <input type="text" class="form-control" id="inputProjectTitle" placeholder="Enter project title">
+                  </div>
+                  <div class="form-group">
+                    <label for="inputProjectDescription">Description</label>
+                    <textarea class="form-control" rows="3"id="inputProjectDescription" placeholder="some description will do"></textarea>
+                    <!-- <input type="password" class="form-control" > -->
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputFile">File input</label>
+                    <input type="file" id="exampleInputFile">
+                    <p class="help-block">upload your first file (optional)</p>
+                  </div>
+                  <!-- <div class="checkbox">
+                    <label>
+                      <input type="checkbox"> Check me out
+                    </label>
+                  </div> -->
+                  <!-- <button type="submit" class="btn btn-default">Submit</button> -->
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="">Save changes</button>
+              </div>
+            </div>
+          </div>
         </div>
-    </div>
-
-</body>
-
+    </body>
 </html>
