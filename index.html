@@ -13,6 +13,7 @@
 
     <script>
         var localURL = "projects_info.php?";
+        var currentProjectId;
 
         $(document).ready(function(){
             //update projects if logged in otherwise display pubic projects
@@ -43,13 +44,13 @@
                 pdInfo = '<div class = "col-lg-6" id = "openProjects">';
                 
                 for (var i = 0; i < pData.length; i++) {
-                    pdInfo += '<div onclick="project_info('+ pData[i].id +')">'+ pData[i].title +'</div>';
-                    pdInfo += '<p>'+pData[i].description+'</p>';
+                    pdInfo += '<div onclick="project_info('+ pData[i].id +')"><b><h3>'+ pData[i].title +'</h3></b></div>';
+                    pdInfo += '<p><small>'+pData[i].description+'</small></p>';
                     
                 };
 
                 //Button trigger modal
-                pdInfo += '<button type="button" class="btn btn-sm btn-default btn-block" data-toggle="modal" data-target="#myModal">create new project</button>';
+                pdInfo += '<button type="button" class="btn btn-sm btn-default btn-block" data-toggle="modal" data-target="#newProjectModal">create new project</button>';
                 pdInfo += '</div>';
             }
             //check for the display of the json object
@@ -71,7 +72,7 @@
 
             console.log(spData);
 
-            spInfo = '<div  class = "col-lg-6" id="projectDetails">';
+            spInfo = '<div  class = "col-lg-12" id="basicDetails">';
             spInfo += '<h3>'+ spData.title +'</h3>';
             spInfo += '<p>'+ spData.description +'</p>';
             spInfo += '<p>'+ spData.file_01 +'</p>';
@@ -79,8 +80,73 @@
             spInfo += '<p>'+ spData.date_created +'</p>';
             spInfo += '</div>';
 
-            $("#projectDetails").replaceWith(spInfo);
+            $("#basicDetails").replaceWith(spInfo);
+            project_members(id);
+            currentProjectId = id;
 
+        }
+
+        //display members of project id
+        function project_members(id){
+            console.log("list members of project " + id);
+
+            var mData = syncAjax("list_project_members&team_project_id=" +id);
+            console.log(mData);
+
+            var mInfo = '<div  class = "col-lg-12" id="memberDetails">';
+            mInfo += '<h3>Members</h3>';
+            mInfo += '<ul>';
+            
+            for (var i = 0; i < mData.length; i++) {
+                
+                mInfo += '<li><b>'+mData[i].first_name+' '+mData[i].last_name+'</b> '+mData[i].clearance+'</li>';
+                //'+mData[i].user_name+'
+            };
+            mInfo += '</ul>';
+            mInfo += '<button type="button" class="btn btn-sm btn-default btn-block" data-toggle="modal" data-target="#addNewMemberModal">add new member</button>';
+            mInfo += '</div>';
+            $("#memberDetails").replaceWith(mInfo);
+            non_project_members(id);
+        }
+
+        //display non members of project id
+        function non_project_members(id){
+            console.log("list non members of project " + id);
+
+            var nmData = syncAjax("list_non_project_members&t_project_id=" +id);
+            console.log(nmData);
+
+            var nmInfo = '<div class="form-group" id="nonMembers">';
+            
+            for (var i = 0; i < nmData.length; i++) {
+                
+                nmInfo += '<div class="checkbox">';
+                    nmInfo += '<label>';
+                        nmInfo += '<input type="checkbox" value="" onclick="new_project_member('+nmData[i].user_id+')">';
+                        nmInfo += ''+nmData[i].first_name+'     '+nmData[i].last_name+' ';
+                    nmInfo += '</label>';
+                nmInfo += '</div>';
+
+            };
+            
+            nmInfo += '</div>';
+            $("#nonMembers").replaceWith(nmInfo);
+        }
+
+        //add new member to projedt = currentProjectId
+        function new_project_member(userId){
+            console.log("adding new member to " + currentProjectId);
+
+            var user_id = userId;
+
+            syncAjax("add_member&member="+user_id+"&project="+currentProjectId+"&clearance=regular");
+            project_info(currentProjectId);
+        }
+
+        //create a new project -- yet to be implement
+        function createProject(){
+            console.log('not yet people! :');
+             var title = document.getElementById('');
         }
 
     </script>
@@ -90,7 +156,7 @@
         <div class="container-fluid container">
             <div class="row">
                 <div class="col-lg-6">
-                    <a href="#menu-toggle" id="menu-toggle" onclick="displayProjects()">LOGO</a>
+                    <!-- <a href="#menu-toggle" id="menu-toggle" onclick="displayProjects()">LOGO</a> -->
                 </div>
                 <div class="col-lg-6 text-right">
                     <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
@@ -106,11 +172,14 @@
             </div>
             <div class="row">
                 <div class = "col-lg-6" id="openProjects"></div>
-                <div class = "col-lg-6" id="projectDetails"></div>
+                <div class = "col-lg-6" id="projectDetails">
+                    <div class = "col-lg-12" id="basicDetails"></div>
+                    <div class = "col-lg-12" id="memberDetails"></div>
+                </div>
             </div>
         </div>
         <!-- add a new project modal -->
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal fade" id="newProjectModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -118,10 +187,6 @@
                 <h4 class="modal-title" id="myModalLabel">New Class Project</h4>
               </div>
               <div class="modal-body">
-                <!-- <form id="newProject">
-                    <input type="text" id="pTitle" value"" placeholder="enter project title">
-                    <textarea class="form-control" rows="3"></textarea>
-                </form> -->
                 <form id="newProject">
                   <div class="form-group">
                     <label for="inputProjectTitle">Title</label>
@@ -129,7 +194,7 @@
                   </div>
                   <div class="form-group">
                     <label for="inputProjectDescription">Description</label>
-                    <textarea class="form-control" rows="3"id="inputProjectDescription" placeholder="some description will do"></textarea>
+                    <textarea class="form-control" rows="3" id="inputProjectDescription" placeholder="some description will do"></textarea>
                     <!-- <input type="password" class="form-control" > -->
                   </div>
                   <div class="form-group">
@@ -137,17 +202,31 @@
                     <input type="file" id="exampleInputFile">
                     <p class="help-block">upload your first file (optional)</p>
                   </div>
-                  <!-- <div class="checkbox">
-                    <label>
-                      <input type="checkbox"> Check me out
-                    </label>
-                  </div> -->
-                  <!-- <button type="submit" class="btn btn-default">Submit</button> -->
                 </form>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="">Save changes</button>
+                <button type="button" class="btn btn-primary" onclick="createProject()">Save changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- add a new member -->
+        <div class="modal fade" id="addNewMemberModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">New Member</h4>
+              </div>
+              <div class="modal-body">
+                  <div class="form-group" id="nonMembers">
+                    ...
+                  </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <!-- <button type="button" class="btn btn-primary" onclick="new_project_member()">Add</button> -->
               </div>
             </div>
           </div>
