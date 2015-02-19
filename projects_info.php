@@ -157,7 +157,7 @@
 			$description = $_REQUEST['description'];
 		}
 
-		$query = "INSERT INTO project (title, description) VALUES ('$title', '$description')"
+		$query = "INSERT INTO project (title, description) VALUES ('$title', '$description')";
 		mysql_query($query, $link);
 	}
 
