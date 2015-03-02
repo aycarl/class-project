@@ -27,7 +27,7 @@
 			# code... to be used to extract projects related to logged in user
 		// 	$member = $_REQUEST['user_info'];
 		// }
-		$user_id = 1;
+		$user_id = 1; //hard coded for now...
 		
 		$query = mysql_query("SELECT * FROM projects, team_project, users WHERE projects.pr_id = team_project.project AND users.user_id = team_project.member AND users.user_id = '$user_id'", $link);
 		$result = mysql_fetch_assoc($query);
@@ -152,12 +152,25 @@
 		# code...
 		if (isset($_REQUEST['title'])) {
 			$title = $_REQUEST['title'];
+			// echo $title;
 		}
 		if (isset($_REQUEST['description'])) {
 			$description = $_REQUEST['description'];
+			// echo $description;
 		}
+		// if(isset($_REQUEST['owner_id'])){
+			$owner_id = 1; // $_REQUEST['owner_id']; hard coded for now
+		// }
 
-		$query = "INSERT INTO project (title, description) VALUES ('$title', '$description')";
+		$query = "INSERT INTO projects (title, description, file_01, file_02) VALUES ('$title', '$description', null, null)";
+		mysql_query($query, $link);
+
+		//retrieve the id of the newly created project
+		// and create a new team project with it
+		$project = mysql_fetch_assoc(mysql_query("SELECT pr_id FROM projects WHERE title = '$title' AND description = '$description'", $link));
+		echo $project['pr_id'];
+
+		$query = 'INSERT INTO team_project (member, project, clearance) VALUES ("$owner_id", "$project[pr_id]", "owner")';
 		mysql_query($query, $link);
 	}
 
@@ -179,4 +192,27 @@
 		mysql_query($query, $link);
 	}
 
+	//assign a task to a project member
+	if (isset($_REQUEST['assignTask'])) {
+		# code...
+		if (isset($_REQUEST['message'])) {
+			$message = $_REQUEST['message'];
+		}
+		if (isset($_REQUEST['deadline_day'])) {
+			$dday = $_REQUEST['deadline_day'];
+		}
+		if (isset($_REQUEST['deadline_time'])) {
+			$dtime = $_REQUEST['deadline_time'];
+		}
+		if (isset($_REQUEST['assignee'])) {
+			$assignee = $_REQUEST['assignee'];
+		}
+		if (isset($_REQUEST['a_project_id'])) {
+			$a_project_id = $_REQUEST['a_project_id'];
+		}
+
+		$query = "INSERT INTO tasks (message, deadline_day, deadline_time, assignee, project) VALUES ('$message', '$deadline_day', '$deadline_time', '$assignee', '$project')";
+
+		mysql_query($query, $link);
+	}
 ?>
