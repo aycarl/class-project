@@ -1,18 +1,19 @@
 Class Project
 =======
 
-CLass Project is a web application which allows students to effectively manage and monitor the progress of team projects.This application will enable students monitor the progress of projects and collaborate better by sharing team member quotas more effectively among themselves. The application will enable students to assign tasks, set milestones and create deadlines to ensure that final work is done in a timely manner. Instructors will also have the opportunity to view and monitor the general performance of the whole project as well as that of individual members of each team. This application will be web based and locally accessible to students on  Ashesi University College campus.
+Class Project is a web application which allows students to effectively manage and monitor the progress of team projects.This application will enable students monitor the progress of projects and collaborate better by sharing team member quotas more effectively among themselves. The application will enable students to assign tasks, set milestones and create deadlines to ensure that final work is done in a timely manner. Instructors will also have the opportunity to view and monitor the general performance of the whole project as well as that of individual members of each team. This application will be web based and locally accessible to students on  Ashesi University College campus.
 
 Project Status
 --------------
-Curently, the project allows a typical user to 
-* view a web page which displays the projects he/she is working
-* tbc...
+Curently, a typical user can
+* view a display of the projects he/she is working
+* click and view details of a particular project
+* add a new member to a project
 
 Getting Started
 ---------------
 ### Dependencies
-* XAMPP Apache Web Server
+* Apache Web Server
 * MySql Server
 
 ### Setting Up (on git shell)
