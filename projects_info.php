@@ -167,11 +167,13 @@
 
 		//retrieve the id of the newly created project
 		// and create a new team project with it
-		$project = mysql_fetch_assoc(mysql_query("SELECT pr_id FROM projects WHERE title = '$title' AND description = '$description'", $link));
-		echo $project['pr_id'];
+		$project_query = mysql_query("SELECT pr_id FROM projects WHERE title = '$title' AND description = '$description'", $link);
+		$project = mysql_fetch_assoc($project_query);
+		// echo $project['pr_id'];
+		$new_project = $project['pr_id'];
 
-		$query = 'INSERT INTO team_project (member, project, clearance) VALUES ("$owner_id", "$project[pr_id]", "owner")';
-		mysql_query($query, $link);
+		$tproject_query = "INSERT INTO team_project (member, project, clearance) VALUES ('$owner_id', '$new_project', 'owner')";
+		mysql_query($tproject_query, $link);
 	}
 
 	//add a member to a project
