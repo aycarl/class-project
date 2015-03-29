@@ -91,7 +91,7 @@
 			$prj = $_REQUEST['team_project_id'];
 		}
 
-		$query = mysql_query("SELECT user_name, first_name, last_name, clearance FROM projects, team_project, users WHERE projects.pr_id = team_project.project AND users.user_id = team_project.member AND pr_id = '$prj'", $link);
+		$query = mysql_query("SELECT users.user_id 'user_id', user_name, first_name, last_name, clearance FROM projects, team_project, users WHERE projects.pr_id = team_project.project AND users.user_id = team_project.member AND pr_id = '$prj'", $link);
 		$result = mysql_fetch_assoc($query);
 
 		echo "[";
@@ -99,6 +99,7 @@
 		while ($result) {
 
 			echo "{";
+			echo "\"user_id\" :\"".$result["user_id"]."\",";
 			echo "\"user_name\" :\"".$result["user_name"]."\",";
 			echo "\"first_name\" :\"".$result["first_name"]."\",";
 			echo "\"last_name\" :\"".$result["last_name"]."\",";
@@ -169,7 +170,7 @@
 		// and create a new team project with it
 		$project_query = mysql_query("SELECT pr_id FROM projects WHERE title = '$title' AND description = '$description'", $link);
 		$project = mysql_fetch_assoc($project_query);
-		// echo $project['pr_id'];
+		echo $project['pr_id'];
 		$new_project = $project['pr_id'];
 
 		$tproject_query = "INSERT INTO team_project (member, project, clearance) VALUES ('$owner_id', '$new_project', 'owner')";
@@ -194,7 +195,7 @@
 		mysql_query($query, $link);
 	}
 
-	//assign a task to a project member
+	//create && assign a task to a project member
 	if (isset($_REQUEST['assignTask'])) {
 		# code...
 		if (isset($_REQUEST['message'])) {
@@ -213,8 +214,44 @@
 			$a_project_id = $_REQUEST['a_project_id'];
 		}
 
-		$query = "INSERT INTO tasks (message, deadline_day, deadline_time, assignee, project) VALUES ('$message', '$deadline_day', '$deadline_time', '$assignee', '$project')";
+		$query = "INSERT INTO tasks (message, deadline_day, deadline_time, assignee, project) VALUES ('$message', '$dday', '$dtime', '$assignee', '$a_project_id')";
 
 		mysql_query($query, $link);
 	}
+
+	//parse list of tasks of all members
+	if (isset($_REQUEST['list_tasks'])) {
+		
+		if (isset($_REQUEST['lt_project_id'])) {
+			# code...
+			$prj = $_REQUEST['lt_project_id'];
+		}
+
+		$query = mysql_query("SELECT * FROM tasks, users WHERE tasks.assignee = users.user_id AND tasks.project = '$prj';", $link);
+		$result = mysql_fetch_assoc($query);
+
+		echo "[";
+
+		while ($result) {
+
+			echo "{";
+			echo "\"message\" :\"".$result["message"]."\",";
+			echo "\"deadline_day\" :\"".$result["deadline_day"]."\",";
+			echo "\"deadline_time\" :\"".$result["deadline_time"]."\",";
+			echo "\"assignee\" :\"".$result["assignee"]."\",";
+			echo "\"time_assigned\" :\"".$result["time_assigned"]."\",";
+			echo "\"first_name\" :\"".$result["first_name"]."\",";
+			echo "\"last_name\" :\"".$result["last_name"]."\"";
+			echo "}";
+
+			$result = mysql_fetch_assoc($query);
+			if ($result) {
+				echo ",";
+			}
+		}
+
+		echo "]";
+
+	}
+
 ?>

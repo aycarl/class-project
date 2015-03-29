@@ -43,7 +43,13 @@ INSERT INTO `projects` (`pr_id`, `title`, `description`, `file_01`, `file_02`, `
 (1, 'Competitive Strategy', 'Complete assignment 1 as a group (10 questions)', NULL, NULL, '2015-02-02 17:53:45'),
 (2, 'Text and Meaning', ' present chapter 1 to the class on Tuesday', NULL, NULL, '2015-02-02 17:53:45'),
 (3, 'Design', 'create a library experience for students of Adesua Ye', NULL, NULL, '2015-02-17 15:50:43'),
-(4, 'Social Theory', 'Analyse the differences between the three waves of feminism (5 pages)', NULL, NULL, '2015-02-17 15:52:18');
+(4, 'Social Theory', 'Analyse the differences between the three waves of feminism (5 pages)', NULL, NULL, '2015-02-17 15:52:18'),
+(23, 'lk', 'get it real', NULL, NULL, '2015-03-11 12:29:39'),
+(24, 'lk', 'you better run', NULL, NULL, '2015-03-11 12:32:45'),
+(25, 'lk', 'you better run', NULL, NULL, '2015-03-11 12:34:03'),
+(26, 'lk', 'llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll', NULL, NULL, '2015-03-11 12:44:58'),
+(27, 'lk', 'llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllmmmmm', NULL, NULL, '2015-03-11 12:45:53'),
+(28, 'lk', 'llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllmmmmm', NULL, NULL, '2015-03-14 01:06:20');
 
 -- --------------------------------------------------------
 

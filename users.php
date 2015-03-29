@@ -1,0 +1,116 @@
+<?php
+
+	
+	define("DB_HOST", 'localhost');
+	define("DB_NAME", 'class_project');
+	define("DB_PORT", 3306);
+	define("DB_USER","root");
+	define("DB_PWORD","");
+
+	class users {  
+		// var $database = "class_project";
+		// var $username = "root";
+		// var $password = "";
+		// var $server = "localhost";
+		var $link;
+
+		function users() {
+			// adb::adb();
+			$this->link = false;
+		}
+
+
+		//connect to server and database
+		function connect(){
+			
+			$this->link = mysql_connect(DB_HOST, DB_USER, DB_PWORD);
+			if (!$this->link) {
+				echo "Failed to connect to MySQL server";
+				echo mysql_error();
+				exit();
+			}
+
+			//connect to database
+			if (!mysql_select_db(DB_NAME, $this->link)) {
+				echo "Failed to select database: ". DB_NAME;
+				echo mysql_error();
+				exit();
+			}
+
+		}
+		
+		// function get_all_users(){
+		// 	$query=("SELECT * FROM users");
+		// 	return $this->query($query);
+		// }
+		
+		// function add_user($userId,$firstname,$lastname,$username,$usertype,$pword,$dateCreated){
+		// 	$query = ("INSERT INTO users(userId,firstname,lastname,username,usertype,pword,datecreated) values(NULL,'$firstname','$lastname','$username','$usertype','$pword','$dateCreated')");
+		// 	return $this->query($query);	
+		// }
+		
+		// function search_user_by_username($username){
+		// 	$query = ("SELECT * FROM users WHERE username LIKE '$username%'");
+		// 	return $this->query($query);
+		// }
+		
+		// function edit_user($firstname, $lastname,$username,$usertype,$userId){
+		// 	$query = ("UPDATE users SET firstname='$firstname' , lastname='$lastname', username='$username', usertype='$usertype' WHERE userId=$userId");
+		// 	return $this->query($query);
+		// }
+		
+		// function search_byId($userId){
+		// 	$query =("SELECT * FROM users WHERE userId=$userId");
+  //           if(!$this->query($query)){
+  //               return false;
+  //           }
+  //           return $this->fetch();
+  //       }
+
+        function get_userby_username_password($username,$password){
+        	$this->connect();
+            $query = mysql_query("SELECT * FROM users WHERE user_name='$username' AND pass_key=md5('$password')", $this->link);
+            $result = mysql_fetch_assoc($query);
+            return $result;
+            // $rowCount = 0;
+
+		// echo "[";
+
+		// while ($result) {
+			
+		// 	echo "{";
+		// 	echo "\"id\" :\"".$result["user_id"]."\",";
+		// 	echo "\"firstname\" :\"".$result["first_name"]."\",";
+		// 	echo "\"lastname\" :\"".$result["last_name"]."\",";
+		// 	echo "\"authority\" : \"".$result['authority']."\"";
+
+		// 	echo "}";
+
+		// 	$result = mysql_fetch_assoc($query);
+		// 	if ($result) {
+		// 		echo ",";
+		// 	}
+		// 	$rowCount++;
+
+		// }
+
+		// echo "]";
+
+            // if(!$this->query($query)){
+            //     return false;
+            // }
+            // return $this->fetch();
+        }
+
+		
+		
+		
+	/*
+	 * Delete or deactivate user by status active/ inactive
+	 * assume an admin that adds users and gives passwords
+	 * password encryption and decryption
+	 * login validation
+	 * */
+	
+	}
+
