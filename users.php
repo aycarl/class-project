@@ -7,16 +7,14 @@
 	define("DB_USER","root");
 	define("DB_PWORD","");
 
-	class users {  
-		// var $database = "class_project";
-		// var $username = "root";
-		// var $password = "";
-		// var $server = "localhost";
+	class users {
+
 		var $link;
 
 		function users() {
 			// adb::adb();
 			$this->link = false;
+			$this->connect();
 		}
 
 
@@ -68,41 +66,19 @@
   //       }
 
         function get_userby_username_password($username,$password){
-        	$this->connect();
+        	// $this->connect();
             $query = mysql_query("SELECT * FROM users WHERE user_name='$username' AND pass_key=md5('$password')", $this->link);
             $result = mysql_fetch_assoc($query);
             return $result;
-            // $rowCount = 0;
 
-		// echo "[";
-
-		// while ($result) {
-			
-		// 	echo "{";
-		// 	echo "\"id\" :\"".$result["user_id"]."\",";
-		// 	echo "\"firstname\" :\"".$result["first_name"]."\",";
-		// 	echo "\"lastname\" :\"".$result["last_name"]."\",";
-		// 	echo "\"authority\" : \"".$result['authority']."\"";
-
-		// 	echo "}";
-
-		// 	$result = mysql_fetch_assoc($query);
-		// 	if ($result) {
-		// 		echo ",";
-		// 	}
-		// 	$rowCount++;
-
-		// }
-
-		// echo "]";
-
-            // if(!$this->query($query)){
-            //     return false;
-            // }
-            // return $this->fetch();
         }
 
-		
+		function get_user_clearance($username){
+		// 	$this->connect();
+			$query = mysql_query("SELECT authority FROM users WHERE user_name = '$username'", $this->link);
+			$result = mysql_fetch_assoc($query);
+			return $result;
+		}
 		
 		
 	/*

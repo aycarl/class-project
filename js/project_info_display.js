@@ -153,15 +153,15 @@ function assignTask(){
     var message = document.getElementById('inputTaskDescription').value;
     var a_project_id = currentProjectId;
     var assignee = currentProjectMember;
+    document.getElementById("taskForm").reset();
     syncAjax("assignTask&deadline_time="+time+"&deadline_day="+day+"&message="+message+"&a_project_id="+a_project_id+"&assignee="+assignee);
     console.log("Task assigned to user" + 1);
-    document.getElementById("taskForm").reset();
     displayTasks();
 }
 
 //set current member var
 function curMember(memID){
-    alert("member ID " + memID + " has been set!");
+    // alert("member ID " + memID + " has been set!");
     currentProjectMember = memID;
 }
 
@@ -178,7 +178,7 @@ function displayTasks(){
     
     for (var i = 0; i < tData.length; i++) {
         
-        tInfo += '<li>'+tData[i].message+' asigneed to <b>'+ tData[i].first_name +'     '+ tData[i].last_name +'</b>\n at '+ tData[i].time_assigned +'</li>';
+        tInfo += '<li>\"'+tData[i].message+'\" asigneed to <b>'+ tData[i].first_name +'     '+ tData[i].last_name +'</b>\n at '+ tData[i].time_assigned +'</li>';
         
     };
     tInfo += '</ul>';
@@ -186,7 +186,7 @@ function displayTasks(){
     tInfo += '</div>';
     $("#projectTasks").replaceWith(tInfo);
     // alert("tasks are being displayed");
-    currentProjectId = id;
+    // currentProjectId = id;
 }
 
 

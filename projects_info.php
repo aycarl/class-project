@@ -198,20 +198,26 @@
 	//create && assign a task to a project member
 	if (isset($_REQUEST['assignTask'])) {
 		# code...
+
 		if (isset($_REQUEST['message'])) {
 			$message = $_REQUEST['message'];
+			// echo $message;
 		}
 		if (isset($_REQUEST['deadline_day'])) {
 			$dday = $_REQUEST['deadline_day'];
+			// echo "\n".$dday;
 		}
 		if (isset($_REQUEST['deadline_time'])) {
 			$dtime = $_REQUEST['deadline_time'];
+			// echo "\n".$dtime;
 		}
 		if (isset($_REQUEST['assignee'])) {
 			$assignee = $_REQUEST['assignee'];
+			// echo "\n".$assignee;
 		}
 		if (isset($_REQUEST['a_project_id'])) {
 			$a_project_id = $_REQUEST['a_project_id'];
+			// echo "\n".$a_project_id;
 		}
 
 		$query = "INSERT INTO tasks (message, deadline_day, deadline_time, assignee, project) VALUES ('$message', '$dday', '$dtime', '$assignee', '$a_project_id')";

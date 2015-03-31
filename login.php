@@ -12,10 +12,10 @@
 	//else 
 	//	show the login form
 	$msg="Login";
-	if(isset($_REQUEST['username'])){
+	if(isset($_POST['username'])){
 		//the login form has been submitted
-		$username=$_REQUEST['username'];
-		$password=$_REQUEST['password'];
+		$username=$_POST['username'];
+		$password=$_POST['password'];
         // $continue = true;
 		//call login to check username and password
 		if(login($username,$password)){ //$continue
@@ -80,16 +80,8 @@
 </html>
 
 <?php
+
 	function login($username, $password){
-		//connect to db
-     /*  $obj = new adb();
-        if($obj -> connect()){
-            return true;
-          //  echo "connected";
-        }else{
-            return false;
-            // echo"not connected";
-        } */
 
         include("users.php");
         $user = new users();
@@ -100,22 +92,18 @@
         }else{
             return true;
         }
-
-		//select db
-		//if connection fails, return false
-		//query for the $username and $password
-		//if the user with the right password is found, 
-		//	return true
-		//else 
-		//	return false
-//		return true;
 	}
 	
 	function loadUserProfile($username){
+
+        
+        // include("users.php");
+        $user = new users();
 		//load username and other informaiton into the session 
 		//the user informaiton comes from the database
-		$_SESSION['username']=$username;
-		$_SESSION['usertype']=1;
+		$_SESSION['username'] = $username;
+
+		$_SESSION['usertype'] = $user->get_user_clearance($username);
 		//permission
 	}
 ?>
