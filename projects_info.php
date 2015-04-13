@@ -23,13 +23,13 @@
 	//fetch all projects
 	if (isset($_REQUEST['projects'])) {
 
-		// if (isset($_REQUEST['user_info'])) {
-			# code... to be used to extract projects related to logged in user
-		// 	$member = $_REQUEST['user_info'];
-		// }
-		$user_id = 1; //hard coded for now...
+		if (isset($_REQUEST['user_info'])) {
+			// code... to be used to extract projects related to logged in user
+			$member = $_REQUEST['user_info'];
+		}
+		// $user_id = 1; //hard coded for now...
 		
-		$query = mysql_query("SELECT * FROM projects, team_project, users WHERE projects.pr_id = team_project.project AND users.user_id = team_project.member AND users.user_id = '$user_id'", $link);
+		$query = mysql_query("SELECT * FROM projects, team_project, users WHERE projects.pr_id = team_project.project AND users.user_id = team_project.member AND users.user_name = '$member'", $link);
 		$result = mysql_fetch_assoc($query);
 
 		$rowCount = 0;

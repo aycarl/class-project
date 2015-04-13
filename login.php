@@ -104,6 +104,17 @@
 		$_SESSION['username'] = $username;
 
 		$_SESSION['usertype'] = $user->get_user_clearance($username);
-		//permission
+
+        $_SESSION['user_id'] = $user->get_user_id($username);
+
 	}
+
+    // //creates new user
+    // function createNewUser(){
+    //     include("users.php");
+
+    //     $user = new users();
+
+    //     $user->create_user($firstname, $lastname, $username, $password, $authority);
+    // }
 ?>

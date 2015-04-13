@@ -2,6 +2,8 @@
     session_start();    //start session
     if(!isset($_SESSION['username'])){  //check if the user data is in the session
         header("location: login.php");  //if not redirect back to user
+        $user_id = $_SESSION['user_id'];
+        $username = $_SESSION['username'];
     }
 ?>
 <html>
@@ -17,6 +19,17 @@
 
       <!-- Bootcards Desktop Core CSS -->
       <link href="css/bootcards-desktop.css" rel="stylesheet">
+
+      <!-- Le styles -->
+      <!-- <link href="/css" rel="stylesheet" type="text/css">
+      <link href="css/bootplus.css" rel="stylesheet">
+      <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+      </style>
+      <link href="css/bootplus-responsive.css" rel="stylesheet">
+      <link href="css/font-awesome-ie7.min.css" rel="stylesheet"> -->
 
       <!-- jQuery -->
       <script src="js/jquery.js"></script>
@@ -36,8 +49,6 @@ var localURL = "projects_info.php?";
 var currentProjectId;
 var currentProjectMember;
 
-currentProjectMember = "<?php echo $_SESSION['username']; ?>";
-
 $(document).ready(function(){
     //update projects if logged in otherwise display pubic projects
     displayProjects();
@@ -55,14 +66,12 @@ function syncAjax(u){
 //display public projects
 function displayProjects(){
     console.log("the displayProjects function was executed!");
-    alert(currentProjectMember + " is the current user!");
-
 
     var pd = document.getElementById("openProjects");
 
     var pdInfo;
 
-    var pData = syncAjax("projects&user_info="+currentProjectMember);
+    var pData = syncAjax("projects");
 
     console.log(pData + ' is displayed')
 
@@ -260,40 +269,3 @@ function displayTasks(){
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
     </nav>
-
-
-          <div class="container-fluid">
-              <div class="row">
-                  <!-- <div class = "col-lg-4" >
-                  </div> -->
-                  <div class = "col-lg-6" >
-                      <div class="panel-body">
-                          <div class="row">
-                              <div class="col-xs-9">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Search Projects...">
-                                    <i class="fa fa-search"></i>
-                                </div>
-                              </div>
-                              <div class="col-xs-3">
-                                  <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#newProjectModal">
-                                      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 
-                                      <span>New Project</span>
-                                  </a>
-                              </div>
-                          </div>              
-                      </div>
-                      <div id="openProjects">
-
-                      </div>
-                  </div>
-                  <div class = "col-lg-6" id="projectDetails">
-                      <div class = "col-lg-12" id="basicDetails"></div>
-                      <div class = "col-lg-12" id="memberDetails"></div>
-                      <div class = "col-lg-12" id="projectTasks"></div>
-                  </div>
-              </div>
-          </div>
-<?php 
-  include 'footer.html';
-?>

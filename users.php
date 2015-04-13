@@ -65,9 +65,17 @@
   //           return $this->fetch();
   //       }
 
-        function get_userby_username_password($username,$password){
+        function create_user($firstname, $lastname, $username, $password, $authority){
         	// $this->connect();
-            $query = mysql_query("SELECT * FROM users WHERE user_name='$username' AND pass_key=md5('$password')", $this->link);
+            $query = mysql_query("INSERT INTO users(first_name, last_name, user_name, pass_key, authority) VALUES ('$firstname', '$lastname','$username', md5('$password', '$authority')", $this->link);
+            $result = mysql_fetch_assoc($query);
+            // return $result;
+
+        }
+
+        function get_userby_username_password($username,$password){
+        	// $this->connect(); 
+            $query = mysql_query("SELECT * FROM users WHERE user_name='$username' AND pass_key='$password'", $this->link);
             $result = mysql_fetch_assoc($query);
             return $result;
 
@@ -79,6 +87,15 @@
 			$result = mysql_fetch_assoc($query);
 			return $result;
 		}
+
+		function get_user_id($username){
+        	// $this->connect(); 
+            $query = mysql_query("SELECT user_id FROM users WHERE user_name='$username'", $this->link);
+            $result = mysql_fetch_assoc($query);
+            return $result;
+
+        }
+
 		
 		
 	/*

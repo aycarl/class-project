@@ -6,6 +6,8 @@ var currentProjectMember;
 $(document).ready(function(){
     //update projects if logged in otherwise display pubic projects
     displayProjects();
+    document.getElementById('user_s_name').innerHTML = "<?php echo $_SESSION['username']; ?>";
+    alert("<?php echo $_SESSION['username']; ?>");
 });
 
 //SyncAjax function
@@ -188,38 +190,3 @@ function displayTasks(){
     // alert("tasks are being displayed");
     // currentProjectId = id;
 }
-
-
-
-
-                        // <div class="panel panel-default">
-
-                        //   <div class="panel-heading clearfix">
-                        //     <h3 class="panel-title pull-left">Notes</h3>
-
-                        //     <div class="btn-group pull-right">
-                        //       <a class="btn btn-primary" href="#"
-                        //         data-toggle="modal"
-                        //         data-target="#editModal">
-                        //           <i class="fa fa-plus"></i>
-                        //           <span>Add</span>
-                        //       </a>
-                        //     </div>
-                            
-                        //   </div>
-
-                        //   <div class="list-group">
-
-                        //     <a class="list-group-item pjax" href="/notes/id">
-                        //       <h4 class="list-group-item-heading">Subject</h4>
-                        //       <p class="list-group-item-text">Date</p>
-                        //     </a>
-                            
-                        //     <a class="list-group-item pjax" href="/notes/id">
-                        //       <h4 class="list-group-item-heading">Subject</h4>
-                        //       <p class="list-group-item-text">Date</p>
-                        //     </a>
-                            
-                        //   </div>
-                          
-                        // </div>
