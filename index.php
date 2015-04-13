@@ -41,6 +41,7 @@ currentProjectMember = "<?php echo $_SESSION['username']; ?>";
 $(document).ready(function(){
     //update projects if logged in otherwise display pubic projects
     displayProjects();
+    displayNotifications();
     document.getElementById('user_s_name').innerHTML = "<?php echo $_SESSION['username']; ?>";
 });
 
@@ -55,7 +56,7 @@ function syncAjax(u){
 //display public projects
 function displayProjects(){
     console.log("the displayProjects function was executed!");
-    alert(currentProjectMember + " is the current user!");
+    // alert(currentProjectMember + " is the current user!");
 
 
     var pd = document.getElementById("openProjects");
@@ -227,6 +228,42 @@ function displayTasks(){
     // currentProjectId = id;
 }
 
+//display tasks for personal notifications
+function displayNotifications(){
+    console.log("display all tasks for current member in project ");
+
+    var tData = syncAjax("notifications&p_user_info=" +currentProjectMember);
+    console.log(tData);
+
+    var tInfo = '<div  class = "col-lg-12" id="projectTasks">';
+    tInfo += '<h3>Tasks</h3>';
+    tInfo += '<ul>';
+    
+    for (var i = 0; i < tData.length; i++) {
+        
+        tInfo += '<li> Complete\"'+tData[i].message+'\" <b>\n by '+ tData[i].deadline_time + ' on ' + tData[i].deadline_day+'</b></li>';
+        
+    };
+    tInfo += '</ul>';
+    // tInfo += '<button type="button" class="btn btn-sm btn-default btn-block" data-toggle="modal" data-target="#assignTaskModal">Task</button>';
+    tInfo += '</div>';
+    document.getElementById('notificationCount').innerHTML = tData.length;
+    $("#notifications").replaceWith(tInfo);
+    // alert("tasks are being displayed");
+    // currentProjectId = id;
+}
+
+function joinProject(){
+  var projectID = document.getElementById('pID').value;
+  // var projectName = document.getElementById('pName').value;
+  document.getElementById("projectForm").reset();
+  if (projectID != null) {
+    syncAjax("add_member&member="+currentProjectMember+"&project="+projectID+"&clearance=regular");
+  } else {
+    alert('Enter a project ID!');
+  };
+}
+
       </script>
 
   </head>
@@ -248,12 +285,13 @@ function displayTasks(){
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <!-- <li class="title"><a href="./projects.php">Donate to a project</a></li>
-            <li><a href="./start_a_project.php">Start a project</a></li>
+            <li class="title"><a href="./#" data-toggle="modal" data-target="#joinProjectModal">Join a project</a></li>
+            <!-- <li><a href="./start_a_project.php">Start a project</a></li>
             <li><a href="./howitworks.php">How it works</a></li> -->
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li><a class="btn pull-right">Welcome <b><span id="user_s_name"></span></b></a></li>
+            <li><a class="btn pull-right">Notifications <b><span id="notificationCount"></span></b></a></li>
             <li><a href="logout.php" class="btn pull-right">Log out</a></li>
             <li></li>
           </ul>
@@ -270,10 +308,11 @@ function displayTasks(){
                       <div class="panel-body">
                           <div class="row">
                               <div class="col-xs-9">
-                                <div class="form-group">
+                                <h4>My Projects</h4>
+                                <!-- <div class="form-group">
                                     <input type="text" class="form-control" placeholder="Search Projects...">
                                     <i class="fa fa-search"></i>
-                                </div>
+                                </div> -->
                               </div>
                               <div class="col-xs-3">
                                   <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#newProjectModal">

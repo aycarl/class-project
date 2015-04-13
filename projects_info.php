@@ -260,4 +260,38 @@
 
 	}
 
+	//parse list of tasks of particular member as notification
+	if (isset($_REQUEST['notifications'])) {
+		
+		if (isset($_REQUEST['p_user_info'])) {
+			$member = $_REQUEST['p_user_info'];
+		}
+
+		$query = mysql_query("SELECT * FROM tasks, users WHERE tasks.assignee = users.user_id AND tasks.status = 'incomplete' AND users.user_name = '$member';", $link);
+		$result = mysql_fetch_assoc($query);
+
+		echo "[";
+
+		while ($result) {
+
+			echo "{";
+			echo "\"message\" :\"".$result["message"]."\",";
+			echo "\"deadline_day\" :\"".$result["deadline_day"]."\",";
+			echo "\"deadline_time\" :\"".$result["deadline_time"]."\",";
+			echo "\"assignee\" :\"".$result["assignee"]."\",";
+			echo "\"time_assigned\" :\"".$result["time_assigned"]."\",";
+			echo "\"first_name\" :\"".$result["first_name"]."\",";
+			echo "\"last_name\" :\"".$result["last_name"]."\"";
+			echo "}";
+
+			$result = mysql_fetch_assoc($query);
+			if ($result) {
+				echo ",";
+			}
+		}
+
+		echo "]";
+
+	}
+
 ?>
