@@ -12,9 +12,11 @@
         } else {
             echo "File is not an image.";
             $uploadOk = 0;
-            }
+        }
+
         $allowedExts = array("pdf", "doc", "docx");
         $extension = end(explode(".", $_FILES["fileToUpload"]["name"]));
+        
         if (($_FILES["fileToUpload"]["type"] == "application/pdf") || 
             ($_FILES["fileToUpload"]["type"] == "application/msword") || 
             ($_FILES["fileToUpload"]["type"] == "application/vnd.openxmlformats-officedocument.wordprocessingml.document") && 
