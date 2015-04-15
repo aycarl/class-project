@@ -179,7 +179,7 @@ function createProject(){
     var title = document.getElementById('inputProjectTitle').value;
     var description = document.getElementById('inputProjectDescription').value;
     syncAjax("newProject&title="+title+"&description="+description);
-    alert("New project successfully added! \n but without a file!");
+    // alert("New project successfully added! \n but without a file!");
     displayProjects();
 }
 
