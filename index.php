@@ -179,7 +179,8 @@
             console.log('not yet people! :');
             var title = document.getElementById('inputProjectTitle').value;
             var description = document.getElementById('inputProjectDescription').value;
-            syncAjax("newProject&title="+title+"&description="+description);
+            // syncAjax("newProject&title="+title+"&description="+description);
+            syncAjax("newProject&title="+title+"&description="+description+"&owner_name="+currentProjectMember);
             // alert("New project successfully added! \n but without a file!");
             displayProjects();
         }
@@ -235,13 +236,13 @@
             var tData = syncAjax("notifications&p_user_info=" +currentProjectMember);
             console.log(tData);
 
-            var tInfo = '<div  class = "col-lg-12" id="projectTasks">';
+            var tInfo = '<div id="notifications">';
             tInfo += '<h3>Tasks</h3>';
             tInfo += '<ul>';
             
             for (var i = 0; i < tData.length; i++) {
                 
-                tInfo += '<li> Complete\"'+tData[i].message+'\" <b>\n by '+ tData[i].deadline_time + ' on ' + tData[i].deadline_day+'</b></li>';
+                tInfo += '<li>\"'+tData[i].message+'\" by <b>'+ tData[i].deadline_time + ' on ' + tData[i].deadline_day+'</b> <button type="button" class="btn btn-sm btn-default" >complete</button></li>';
                 
             };
             tInfo += '</ul>';
@@ -257,11 +258,11 @@
           var projectID = document.getElementById('pID').value;
           // var projectName = document.getElementById('pName').value;
           document.getElementById("projectForm").reset();
-          if (projectID != null) {
+          // if (projectID != null) {
             syncAjax("add_member&member="+currentProjectMember+"&project="+projectID+"&clearance=regular");
-          } else {
+          // } else {
             alert('Enter a project ID!');
-          };
+          // };
         }
 
       </script>
@@ -291,7 +292,7 @@
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li><a class="btn pull-right">Welcome <b><span id="user_s_name"></span></b></a></li>
-            <li><a class="btn pull-right">Notifications <b><span id="notificationCount"></span></b></a></li>
+            <li><a class="btn pull-right" onclick="displayNotifications()" data-toggle="modal" data-target="#notificationModal" >Notifications <b><span id="notificationCount"></span></b></a></li>
             <li><a href="logout.php" class="btn pull-right">Log out</a></li>
             <li></li>
           </ul>
